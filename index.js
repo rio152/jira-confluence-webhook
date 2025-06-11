@@ -6,7 +6,7 @@ app.use(express.json());
 // 🔧 CONFIGURA QUESTI VALORI
 const CONFLUENCE_BASE_URL = 'https://ilariotrial.atlassian.net/wiki';
 const SPACE_KEY = 'TESST';
-const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0iazRt0wz5YehwOeWVHIbj8BoBjIDQSv90gKVj4eezUDNUq3xkMwJev89Goa1eBfDOXV0VIU45DG7vtWBM_y0tNnBwqXyt4s4dQnXwyBrbfg9ifTbnjcqfRyv46UlYedhwYE6FgqqBXQAcAVVQeMbBnhhpjLgcof858nuphqPCaU=F70DB12F').toString('base64');
+const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0CEQidsA1hVl6EDWzoJbfDLi24MIQ-LuNUf1aVkAPaxVOyep-vT-FWD8r0b63OuN41Mzlt7QJFhraDnxEqzXoIiHwWjUXzZkTkxonooUN8OTAKQDvCeN4InlTJ2HEbz2JhoRIUmLkUxbNsckGhU6ALBJG8xxmo7JUeec4ziTyJwY=E6E628DD').toString('base64');
  
 const HEADERS = {
   Authorization: `Basic ${AUTH}`,
