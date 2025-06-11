@@ -3,7 +3,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
  
-// 🔧 CONFIGURA QUESTI VALORI
+// CONFIGURA QUI I TUOI DATI REALI
 const CONFLUENCE_BASE_URL = 'https://ilariotrial.atlassian.net/wiki';
 const SPACE_KEY = 'TESST';
 const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0zKKC6gvW4tBD8Qw_MK3JhV4bEoqFLCaE2ZMtgR7CiBC0glCBPBFT5_IneiJqsqdIuQ-YFu4e7tBvBH-hVTRhCzzYOVL-3TIkJM-a-168uW8NJoFbkgDPn_T1O6XgUy9_hqc3H1b2qBEaPA3N8fXzoYn_G1_1NxCEMfM1jNP3Maw=E7D7F405').toString('base64');
@@ -15,12 +15,17 @@ const HEADERS = {
  
 app.post('/create-pages', async (req, res) => {
   try {
+    console.log('✅ Richiesta ricevuta da Jira');
+    console.log(JSON.stringify(req.body, null, 2));
+ 
     const { fields } = req.body.issue;
     const nome = fields.customfield_10039;
     const cognome = fields.customfield_10040;
     const fullName = `${nome} ${cognome}`;
  
-    // Crea la pagina madre
+    console.log(`🧑 Creazione pagine per: ${fullName}`);
+ 
+    // 1. Creazione della pagina madre
     const madre = await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
@@ -38,11 +43,13 @@ app.post('/create-pages', async (req, res) => {
     );
  
     const madreId = madre.data.id;
+    console.log(`📄 Pagina madre creata con ID: ${madreId}`);
  
-    // Crea 3 pagine figlie
+    // 2. Creazione pagine figlie
     const figli = ['Documento A', 'Documento B', 'Documento C'];
+ 
     for (const titolo of figli) {
-      await axios.post(
+      const figlia = await axios.post(
         `${CONFLUENCE_BASE_URL}/rest/api/content`,
         {
           type: 'page',
@@ -58,17 +65,20 @@ app.post('/create-pages', async (req, res) => {
         },
         { headers: HEADERS }
       );
+ 
+      console.log(`📄 Pagina figlia creata: ${figlia.data.id}`);
     }
  
-    res.status(200).send('Pagine create!');
+    res.status(200).send('✅ Tutte le pagine sono state create con successo');
   } catch (err) {
-    console.error(err.response?.data || err.message);
-    res.status(500).send('Errore durante la creazione delle pagine');
+    console.error('❌ Errore durante la creazione delle pagine');
+    console.error(err.response?.data || err.message || err);
+    res.status(500).send('❌ Errore durante la creazione delle pagine');
   }
 });
  
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Webhook attivo su porta ${PORT}`);
+  console.log(`🚀 Webhook attivo su porta ${PORT}`);
 });
  
