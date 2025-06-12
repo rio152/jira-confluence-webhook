@@ -3,38 +3,36 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
  
-// CONFIGURA QUI I TUOI DATI REALI
-const CONFLUENCE_BASE_URL = 'https://ilariotrial.atlassian.net/wiki';
-const SPACE_KEY = 'TESST';
-const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0zKKC6gvW4tBD8Qw_MK3JhV4bEoqFLCaE2ZMtgR7CiBC0glCBPBFT5_IneiJqsqdIuQ-YFu4e7tBvBH-hVTRhCzzYOVL-3TIkJM-a-168uW8NJoFbkgDPn_T1O6XgUy9_hqc3H1b2qBEaPA3N8fXzoYn_G1_1NxCEMfM1jNP3Maw=E7D7F405').toString('base64');
+// ✅ CONFIGURA QUI I TUOI DATI REALI
+const CONFLUENCE_BASE_URL = 'https://ilariotrial.atlassian.net/wiki'; // <--- Modifica
+const SPACE_KEY = 'TESST'; // <--- Modifica con il tuo Space Key
+const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0z-IZ7-8SxSFcdbC6SCe0vMMHm-zJaPMdrXGuVUv2iDfl2Pfc6TF_7rdsga4ZGDfW6HmqlOzbsxjzmE-wOkFbkqd87JxA4vV7u1Tw5-sAzKiIAvKKf6G1hZt13D_FF1N01LWPKVszVR9C82vzHVSz86dJqXEk0asPWQhcuDbzCbs=2EEA3992').toString('base64'); // <--- Modifica
  
 const HEADERS = {
   Authorization: `Basic ${AUTH}`,
   'Content-Type': 'application/json'
 };
  
-app.post('/create-pages', async (req, res) => {
+// ✅ Questo è l'endpoint che Jira chiamerà
+app.post('/create-figlia', async (req, res) => {
   try {
-    console.log('✅ Richiesta ricevuta da Jira');
-    console.log(JSON.stringify(req.body, null, 2));
+    console.log('✅ Webhook ricevuto');
+    const { issue } = req.body;
+    const fields = issue.fields;
  
-    const { fields } = req.body.issue;
-    const nome = fields.customfield_10039;
-    const cognome = fields.customfield_10040;
-    const fullName = `${nome} ${cognome}`;
+    const pageId = parseInt(fields.customfield_10040); // <--- Campo custom con ID della madre
+    const fullName = fields.summary || 'Nuova Pagina';
  
-    console.log(`🧑 Creazione pagine per: ${fullName}`);
- 
-    // 1. Creazione della pagina madre
-    const madre = await axios.post(
+const response = await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
-        title: `${fullName} - Documentazione`,
+        title: `${fullName} - Documento A`,
         space: { key: SPACE_KEY },
+        ancestors: [{ id: pageId }],
         body: {
           storage: {
-            value: `<p>Pagina madre per ${fullName}</p>`,
+            value: `<p>Contenuto creato da Jira Webhook</p>`,
             representation: 'storage'
           }
         }
@@ -42,43 +40,16 @@ app.post('/create-pages', async (req, res) => {
       { headers: HEADERS }
     );
  
-    const madreId = madre.data.id;
-    console.log(`📄 Pagina madre creata con ID: ${madreId}`);
- 
-    // 2. Creazione pagine figlie
-    const figli = ['Documento A', 'Documento B', 'Documento C'];
- 
-    for (const titolo of figli) {
-      const figlia = await axios.post(
-        `${CONFLUENCE_BASE_URL}/rest/api/content`,
-        {
-          type: 'page',
-          title: `${fullName} - ${titolo}`,
-          ancestors: [{ id: madreId }],
-          space: { key: SPACE_KEY },
-          body: {
-            storage: {
-              value: `<p>Contenuto per ${titolo}</p>`,
-              representation: 'storage'
-            }
-          }
-        },
-        { headers: HEADERS }
-      );
- 
-      console.log(`📄 Pagina figlia creata: ${figlia.data.id}`);
-    }
- 
-    res.status(200).send('✅ Tutte le pagine sono state create con successo');
+console.log(`✅ Pagina figlia creata con ID: ${response.data.id}`);
+    res.status(200).send('Pagina figlia creata con successo!');
   } catch (err) {
-    console.error('❌ Errore durante la creazione delle pagine');
-    console.error(err.response?.data || err.message || err);
-    res.status(500).send('❌ Errore durante la creazione delle pagine');
+    console.error('❌ Errore:', err.response?.data || err.message);
+    res.status(500).send('Errore nella creazione della pagina figlia.');
   }
 });
  
+// 🔁 Il server deve ascoltare sulla porta giusta per Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Webhook attivo su porta ${PORT}`);
+  console.log(`🚀 Server attivo su porta ${PORT}`);
 });
- 
