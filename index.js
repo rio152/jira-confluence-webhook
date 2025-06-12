@@ -21,13 +21,13 @@ app.post('/create-figlia', async (req, res) => {
     const fields = issue.fields;
  
     const pageId = parseInt(fields.customfield_10040); // <--- Campo custom con ID della madre
-    const fullName = fields.summary || 'Nuova Pagina';
+    const titoloFiglia = fields.customfield_10039 || 'Nuova Pagina';
  
 const response = await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
-        title: `${fullName} - Documento A`,
+        title: `${titoloFiglia} - figlia`,
         space: { key: SPACE_KEY },
         ancestors: [{ id: pageId }],
         body: {
