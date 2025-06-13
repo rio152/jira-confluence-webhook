@@ -27,7 +27,41 @@ const response = await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
-        title: `${titoloFiglia} - figlia`,
+        title: `${titoloFiglia} - Introductory Interview`,
+        space: { key: SPACE_KEY },
+        ancestors: [{ id: pageId }],
+        body: {
+          storage: {
+            value: `<p>Contenuto creato da Jira Webhook</p>`,
+            representation: 'storage'
+          }
+        }
+      },
+      { headers: HEADERS }
+    );
+
+   const response = await axios.post(
+      `${CONFLUENCE_BASE_URL}/rest/api/content`,
+      {
+        type: 'page',
+        title: `${titoloFiglia} - Technical Interview`,
+        space: { key: SPACE_KEY },
+        ancestors: [{ id: pageId }],
+        body: {
+          storage: {
+            value: `<p>Contenuto creato da Jira Webhook</p>`,
+            representation: 'storage'
+          }
+        }
+      },
+      { headers: HEADERS }
+    );
+
+   const response = await axios.post(
+      `${CONFLUENCE_BASE_URL}/rest/api/content`,
+      {
+        type: 'page',
+        title: `${titoloFiglia} - Extra Interview`,
         space: { key: SPACE_KEY },
         ancestors: [{ id: pageId }],
         body: {
