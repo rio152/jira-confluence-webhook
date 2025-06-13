@@ -23,7 +23,7 @@ app.post('/create-figlia', async (req, res) => {
     const pageId = parseInt(fields.customfield_10040); // <--- Campo custom con ID della madre
     const titoloFiglia = fields.customfield_10039 || 'Nuova Pagina';
  
-const response = await axios.post(
+await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
@@ -40,7 +40,7 @@ const response = await axios.post(
       { headers: HEADERS }
     );
 
-   const response = await axios.post(
+    await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
@@ -57,7 +57,7 @@ const response = await axios.post(
       { headers: HEADERS }
     );
 
-   const response = await axios.post(
+    await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
       {
         type: 'page',
