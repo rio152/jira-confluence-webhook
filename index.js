@@ -10,7 +10,7 @@ const SPACE_KEY = 'TESST'; // <--- Modifica con il tuo Space Key
  
 const HEADERS = {
   //Authorization: `Basic ${AUTH}`,
- `Basic ${Buffer.from(
+'Authorization': `Basic ${Buffer.from(
       'ilario.azzollini@euris.it:ATATT3xFfGF0z-IZ7-8SxSFcdbC6SCe0vMMHm-zJaPMdrXGuVUv2iDfl2Pfc6TF_7rdsga4ZGDfW6HmqlOzbsxjzmE-wOkFbkqd87JxA4vV7u1Tw5-sAzKiIAvKKf6G1hZt13D_FF1N01LWPKVszVR9C82vzHVSz86dJqXEk0asPWQhcuDbzCbs=2EEA3992'
     ).toString('base64')}`,
     'Accept': 'application/json',
