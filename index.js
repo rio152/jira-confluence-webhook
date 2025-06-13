@@ -11,7 +11,7 @@ const SPACE_KEY = 'TESST'; // <--- Modifica con il tuo Space Key
 const HEADERS = {
   //Authorization: `Basic ${AUTH}`,
 'Authorization': `Basic ${Buffer.from(
-      'ilario.azzollini@euris.it:ATATT3xFfGF0z-IZ7-8SxSFcdbC6SCe0vMMHm-zJaPMdrXGuVUv2iDfl2Pfc6TF_7rdsga4ZGDfW6HmqlOzbsxjzmE-wOkFbkqd87JxA4vV7u1Tw5-sAzKiIAvKKf6G1hZt13D_FF1N01LWPKVszVR9C82vzHVSz86dJqXEk0asPWQhcuDbzCbs=2EEA3992'
+      'ilario.azzollini@euris.it:ATATT3xFfGF0MyffizXT1p0EXAo78HDyt-_jvlnIu53oj2vhXTH-m5M-6-hBBOAKtU2cTD6xfUjCSe65q6AME5t_-B_gKO3NueoSK9njBxVZ8Ub0xEcqA9rmuo4EfYmlp_mKoeeafdzJ8jyBp1lg67_OA6qEy2AQesw_AIu5XLpF66kL1NxV4Nc=7A3E7B4E'
     ).toString('base64')}`,
     'Accept': 'application/json',
   'Content-Type': 'application/json'
