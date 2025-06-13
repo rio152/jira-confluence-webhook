@@ -22,6 +22,14 @@ app.post('/create-figlia', async (req, res) => {
  
     const pageId = parseInt(fields.customfield_10040); // <--- Campo custom con ID della madre
     const titoloFiglia = fields.customfield_10039 || 'Nuova Pagina';
+    const templateId = 1900545;
+ 
+const templateResponse = await axios.get(
+  `${CONFLUENCE_BASE_URL}/rest/api/content/${templateId}?expand=body.storage`,
+  { headers: HEADERS }
+);
+ 
+const templateContent = templateResponse.data.body.storage.value;
  
 await axios.post(
       `${CONFLUENCE_BASE_URL}/rest/api/content`,
@@ -32,7 +40,7 @@ await axios.post(
         ancestors: [{ id: pageId }],
         body: {
           storage: {
-            value: `<p>Contenuto creato da Jira Webhook</p>`,
+            value: templateContent,
             representation: 'storage'
           }
         }
@@ -49,7 +57,7 @@ await axios.post(
         ancestors: [{ id: pageId }],
         body: {
           storage: {
-            value: `<p>Contenuto creato da Jira Webhook</p>`,
+            value: templateContent,
             representation: 'storage'
           }
         }
@@ -66,7 +74,7 @@ await axios.post(
         ancestors: [{ id: pageId }],
         body: {
           storage: {
-            value: `<p>Contenuto creato da Jira Webhook</p>`,
+            value: templateContent,
             representation: 'storage'
           }
         }
