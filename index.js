@@ -6,7 +6,7 @@ app.use(express.json());
 // ✅ CONFIGURA QUI I TUOI DATI REALI
 const CONFLUENCE_BASE_URL = 'https://ilariotrial.atlassian.net/wiki'; // <--- Modifica
 const SPACE_KEY = 'TESST'; // <--- Modifica con il tuo Space Key
-const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0z-IZ7-8SxSFcdbC6SCe0vMMHm-zJaPMdrXGuVUv2iDfl2Pfc6TF_7rdsga4ZGDfW6HmqlOzbsxjzmE-wOkFbkqd87JxA4vV7u1Tw5-sAzKiIAvKKf6G1hZt13D_FF1N01LWPKVszVR9C82vzHVSz86dJqXEk0asPWQhcuDbzCbs=2EEA3992').toString('base64'); // <--- Modifica
+const AUTH = Buffer.from('ilario.azzollini@euris.it:ATATT3xFfGF0z-IZ7-8SxSFcdbC6SCe0vMMHm-zJaPMdrXGuVUv2iDfl2Pfc6TF_7rdsga4ZGDfW6HmqlOzbsxjzmE-wOkFbkqd87JxA4vV7u1Tw5-sAzKiIAvKKf6G1hZt13D_FF1N01LWPKVszVR9C82vzHVSz86dJqXEk0asPWQhcuDbzCbs').toString('base64'); // <--- Modifica
  
 const HEADERS = {
   Authorization: `Basic ${AUTH}`,
